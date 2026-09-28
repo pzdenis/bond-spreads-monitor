@@ -5,23 +5,34 @@
 #
 #
 #
-
-base <- "G:/WP/Mitarbeiter/Puzikov/5 Marktkonformitätsthemen/5 R Rstudio/Spreadvergleich"
 to_source <- c(
   "packages.R",
-  "helpers_calendar.R","helpers_yield.R","helpers_daycount.R",
-  "module_yield.R","module_mkk.R",
-  "main_dashboard.R"   # <- UI/Server kommt erst NACH den Modulen
+  "helpers_calendar.R",
+  "helpers_yield.R",
+  "helpers_daycount.R",
+  "module_yield.R",
+  "module_mkk.R",
+  "main_dashboard.R"
 )
-invisible(lapply(file.path(base, to_source), function(p)
-  source(normalizePath(p, winslash = "/", mustWork = TRUE), encoding = "UTF-8")
-))
 
+invisible(lapply(to_source, function(p) {
+  source(
+    here::here(p),
+    encoding = "UTF-8"
+  )
+}))
 #
 
-mkk_excel_path <- "G:/WP/Mitarbeiter/Puzikov/5 Marktkonformitätsthemen/5 R Rstudio/Spreadvergleich/Hilfdatei mkk-reiter R.xlsx"
+mkk_excel_path <- here::here(
+  "Hilfdatei mkk-reiter R.xlsx"
+)
 
-mkk_raw <- readxl::read_excel(mkk_excel_path, sheet = 1, col_names = TRUE)
+mkk_raw <- readxl::read_excel(
+  mkk_excel_path,
+  sheet = 1,
+  col_names = TRUE
+)
+
 
 mkk_data <- mkk_raw %>%
   dplyr::mutate(
@@ -40,8 +51,11 @@ mkk_data <- mkk_raw %>%
 
 # Markdaten reinladen
 
-
-df_raw <- read_excel("G:/WP/Mitarbeiter/Puzikov/5 Marktkonformitätsthemen/5 R Rstudio/Spreadvergleich/MarktdatenSpreadsbereinigtmitRendite.xlsx")
+df_raw <- readxl::read_excel(
+  here::here(
+    "MarktdatenSpreadsbereinigtmitRendite.xlsx"
+  )
+)
 
 df_raw <- df_raw %>%
   filter(!is.na(Zinsart)) %>%
@@ -55,9 +69,12 @@ max_lz <- max(df_raw$`Laufzeit in Jahren`, na.rm = TRUE)
 zinsarten <- sort(unique(df_raw$Zinsart))
 emittenten <- sort(unique(df_raw$Emittent))
 
-df_bandbreiten <- read_excel("G:/WP/Mitarbeiter/Puzikov/5 Marktkonformitätsthemen/5 R Rstudio/Spreadvergleich/BandbreitenMKK2.xlsx") %>%
-  select(Kategorie, Segment, Wert)
-
+df_bandbreiten <- readxl::read_excel(
+  here::here(
+    "BandbreitenMKK2.xlsx"
+  )
+) %>%
+  dplyr::select(Kategorie, Segment, Wert)
 
 # UI Frontend
 
