@@ -16,3 +16,6 @@ packrat/lib*/
 # OS / Editor
 .DS_Store
 Thumbs.db
+
+# Lokale Sicherung
+/legacy/
