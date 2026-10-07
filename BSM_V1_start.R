@@ -1,4 +1,4 @@
-# Einziger produktiver App-Einstieg: shiny::runApp("BSM_V1_start.R")
+
 library(shiny)
 library(dplyr)
 library(ggplot2)
@@ -6,7 +6,8 @@ library(plotly)
 library(grid)
 
 source("R/data.R", local = TRUE, encoding = "UTF-8")
-# Statische Stammdaten einmal beim Start laden.
+
+# Statische Stammdaten ereinladen
 issuer_master <- read_issuer_master(here::here("data", "issuer_master.csv"))
 df_raw <- read_market_data("MarktdatenSpreadsbereinigtmitRendite.xlsx")
 min_lz <- min(df_raw$`Laufzeit in Jahren`, na.rm = TRUE)
