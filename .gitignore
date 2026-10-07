@@ -19,3 +19,6 @@ Thumbs.db
 
 # Lokale Sicherung
 /legacy/
+
+# Lokale Codex-Arbeitsprotokolle und Analysen
+/Codex_markdown/

@@ -1,4 +1,4 @@
-# Einziger aktiver App-Einstieg: shiny::runApp(".")
+# Einziger produktiver App-Einstieg: shiny::runApp("BSM_V1_start.R")
 library(shiny)
 library(dplyr)
 library(ggplot2)
