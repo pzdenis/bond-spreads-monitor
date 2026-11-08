@@ -201,31 +201,16 @@ ui <- fluidPage(
 
 server <- function(input, output, session) {
   # Diese Auswahl steuert ausschließlich das statische Profil.
-  profileSelection <- reactiveVal(NULL)
-  observeEvent(input$emittenten, {
-    selected <- input$emittenten
-    profileSelection(if (length(selected)) selected[[1L]] else NULL)
-  }, ignoreNULL = FALSE, priority = 10)
-
-  observeEvent(input$profile_emittent, {
-    if (input$profile_emittent %in% input$emittenten) {
-      profileSelection(input$profile_emittent)
-    }
-  })
-
   output$issuerProfileSelector <- renderUI({
-    selected <- input$emittenten
-    if (length(selected) <= 1L) return(NULL)
+    choices <- sort(issuer_master$Emittent)
     selectInput("profile_emittent", "Profil anzeigen für:",
-                choices = selected, selected = selected[[1L]],
+                choices = choices, selected = choices[[1L]],
                 selectize = FALSE, width = "100%")
   })
 
   profileIssuer <- reactive({
-    selected <- input$emittenten
-    if (!length(selected)) return(NULL)
-    choice <- profileSelection()
-    if (length(choice) == 1L && choice %in% selected) choice else selected[[1L]]
+    choice <- input$profile_emittent
+    if (length(choice) == 1L && choice %in% issuer_master$Emittent) choice else NULL
   })
 
   issuerProfile <- reactive({
